@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Вход</title>
+<style>
+body { background: #1e1e1e; color: white; font-family: Arial; padding: 40px; }
+input, button {
+    display: block; margin: 10px 0; padding: 10px;
+    background: #2c2c2c; border: 1px solid #555; color: white;
+}
+</style></head>
+<body>
+<h2>Авторизация</h2>
+<form id="loginForm">
+<input type="text" id="username" placeholder="Логин" required>
+<input type="password" id="password" placeholder="Пароль" required>
+<button type="submit">Войти</button>
+</form>
+<script>
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    if (username === "admin" && password === "admin123") {
+        window.location.href = "/templates/menu.html";
+    } else {
+        alert("Неверные данные");
+    }
+});
+</script>
+</body>
+</html>

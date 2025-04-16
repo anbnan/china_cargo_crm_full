@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Чат</title>
+<style>
+body { background: #1e1e1e; color: white; font-family: Arial; padding: 40px; }
+#messages { margin-bottom: 20px; }
+.msg { margin: 5px 0; }
+</style></head>
+<body>
+<h2>Чат с клиентом</h2>
+<div id="messages"></div>
+<form id="chatForm">
+<input type="text" name="id" placeholder="ID" required>
+<input type="text" name="sender" placeholder="Отправитель" required>
+<input type="text" name="text" placeholder="Сообщение" required>
+<button type="submit">Отправить</button>
+</form>
+<script>
+async function loadMessages() {
+    const res = await fetch("/messages/");
+    const msgs = await res.json();
+    const block = document.getElementById("messages");
+    block.innerHTML = msgs.map(m => `<div class='msg'><b>${m.sender}:</b> ${m.text}</div>`).join("");
+}
+document.getElementById("chatForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form).entries());
+    await fetch("/messages/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+    form.reset();
+    loadMessages();
+});
+loadMessages();
+</script>
+</body>
+</html>

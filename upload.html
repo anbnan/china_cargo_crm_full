@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Загрузка фото</title>
+<style>
+body { background: #1e1e1e; color: white; font-family: Arial; padding: 40px; }
+input, button {
+    display: block; margin: 10px 0; padding: 10px;
+    background: #2c2c2c; border: 1px solid #555; color: white;
+}
+</style></head>
+<body>
+<h2>Загрузить фото для товара</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+<input type="number" name="order_id" placeholder="ID заказа" required>
+<input type="file" name="image" accept="image/*" required>
+<button type="submit">Загрузить</button>
+</form>
+<div id="response"></div>
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const res = await fetch("/upload/", { method: "POST", body: formData });
+    const result = await res.json();
+    document.getElementById("response").innerText = result.detail || "Файл загружен.";
+});
+</script>
+</body>
+</html>
